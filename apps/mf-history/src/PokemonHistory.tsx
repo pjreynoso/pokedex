@@ -5,6 +5,7 @@ import {
   PokemonVisitDetail,
   STORAGE_KEYS,
 } from '@pokemon/shared';
+import './index.css';
 
 export interface PokemonHistoryProps {
   onSelectPokemon?: (name: string) => void;
@@ -154,7 +155,7 @@ export const PokemonHistory: React.FC<PokemonHistoryProps> = ({ onSelectPokemon 
           </p>
         </div>
       ) : (
-        <div className="mt-4 max-h-[420px] overflow-y-auto space-y-2.5 pr-1">
+        <div className="mt-4 max-h-[340px] overflow-y-auto space-y-2.5 pr-1">
           {history.map((item) => (
             <div
               key={item.name}
@@ -167,35 +168,40 @@ export const PokemonHistory: React.FC<PokemonHistoryProps> = ({ onSelectPokemon 
                   onSelectPokemon(item.name);
                 }
               }}
-              className={`flex items-center justify-between p-2.5 rounded-xl border border-gray-100 dark:border-gray-700/60 bg-gray-50/70 dark:bg-gray-900/40 hover:bg-gray-100 dark:hover:bg-gray-700/40 transition-all ${
-                onSelectPokemon ? 'cursor-pointer hover:border-green-500/40' : ''
-              }`}
+              className={`flex items-center justify-between p-2.5 rounded-xl border transition-all ${
+                onSelectPokemon
+                  ? 'cursor-pointer hover:border-red-500/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-800'
+                  : ''
+              } bg-gray-50/90 hover:bg-gray-100/90 border-gray-200/80 dark:bg-gray-900/50 dark:hover:bg-gray-700/60 dark:border-gray-700/80`}
             >
-              <div className="flex items-center space-x-3">
-                <div className="w-11 h-11 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-1 flex items-center justify-center shadow-xs">
+              <div className="flex items-center space-x-3 min-w-0">
+                <div className="w-12 h-12 min-w-[48px] min-h-[48px] max-w-[48px] max-h-[48px] shrink-0 rounded-lg bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 p-1 flex items-center justify-center shadow-sm overflow-hidden">
                   {item.image ? (
                     <img
                       src={item.image}
                       alt={item.name}
-                      className="w-full h-full object-contain"
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                      }}
+                      className="w-full h-full max-w-full max-h-full object-contain"
                     />
                   ) : (
                     <span className="text-xs text-gray-400 font-mono">?</span>
                   )}
                 </div>
-                <div>
-                  <h4 className="text-sm font-bold capitalize text-gray-900 dark:text-white">
+                <div className="min-w-0 truncate">
+                  <h4 className="text-sm font-bold capitalize text-gray-900 dark:text-white truncate">
                     {item.name}
                   </h4>
-                  <span className="text-[11px] text-gray-400 dark:text-gray-500">
+                  <span className="text-xs text-gray-500 dark:text-gray-400 block truncate">
                     Última visita reciente
                   </span>
                 </div>
               </div>
 
               {/* Visits Counter Badge */}
-              <div className="flex items-center">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 dark:bg-green-950/60 text-green-800 dark:text-green-300 border border-green-200 dark:border-green-800">
+              <div className="flex items-center shrink-0 ml-2">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-100 text-red-800 border border-red-200 dark:bg-red-950/70 dark:text-red-300 dark:border-red-900/60">
                   {item.visits} {item.visits === 1 ? 'visita' : 'visitas'}
                 </span>
               </div>

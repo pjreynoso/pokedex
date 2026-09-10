@@ -180,6 +180,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
           <input
             ref={inputRef}
             type="text"
+            aria-label="Buscar Pokémon por nombre exacto o ID"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);

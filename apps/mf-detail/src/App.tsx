@@ -7,7 +7,7 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white p-6 flex flex-col items-center">
       <header className="mb-6 text-center">
-        <h1 className="text-2xl font-black text-blue-600 dark:text-blue-400">
+        <h1 className="text-2xl font-black text-red-600 dark:text-red-400">
           MF1: Detalle de Pokémon (Standalone — Puerto 3001)
         </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -21,7 +21,7 @@ export const App: React.FC = () => {
               onClick={() => setPokemon(name)}
               className={`px-3 py-1 text-xs font-semibold rounded-full capitalize transition-colors ${
                 pokemon === name
-                  ? 'bg-blue-600 text-white shadow-md'
+                  ? 'bg-red-600 text-white shadow-md'
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:bg-gray-100'
               }`}
             >

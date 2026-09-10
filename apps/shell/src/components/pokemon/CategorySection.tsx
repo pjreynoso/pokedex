@@ -50,7 +50,10 @@ export const CategorySection: React.FC<CategorySectionProps> = ({ type, onSelect
       {/* Category Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2.5">
-          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${config.badgeClass}`}>
+          <span
+            id={`category-title-${type}`}
+            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${config.badgeClass}`}
+          >
             {config.icon}
             {config.label}
           </span>

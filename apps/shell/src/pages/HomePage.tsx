@@ -70,7 +70,7 @@ export const HomePage: React.FC = () => {
               <h3 className="text-base font-bold text-gray-900 dark:text-white">
                 Microfrontend 1: Detalle
               </h3>
-              <span className="text-xs px-2 py-0.5 rounded-full font-mono bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-300">
+              <span className="text-xs px-2 py-0.5 rounded-full font-mono bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-300 border border-red-200/60 dark:border-red-900/50">
                 :3001
               </span>
             </div>
@@ -88,7 +88,7 @@ export const HomePage: React.FC = () => {
               <h3 className="text-base font-bold text-gray-900 dark:text-white">
                 Microfrontend 2: Historial
               </h3>
-              <span className="text-xs px-2 py-0.5 rounded-full font-mono bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300">
+              <span className="text-xs px-2 py-0.5 rounded-full font-mono bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700">
                 :3002
               </span>
             </div>

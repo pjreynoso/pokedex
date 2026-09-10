@@ -17,7 +17,7 @@ export const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white p-6 flex flex-col items-center">
       <header className="mb-6 text-center">
-        <h1 className="text-2xl font-black text-green-600 dark:text-green-400">
+        <h1 className="text-2xl font-black text-red-600 dark:text-red-400">
           MF2: Historial de Visitas (Standalone — Puerto 3002)
         </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
@@ -27,13 +27,13 @@ export const App: React.FC = () => {
         <div className="mt-4 flex flex-wrap gap-2 justify-center">
           <button
             onClick={() => simulateVisit('pikachu', 25)}
-            className="px-3 py-1 text-xs font-semibold rounded-full bg-green-600 text-white shadow hover:bg-green-700 transition-colors"
+            className="px-3 py-1 text-xs font-semibold rounded-full bg-red-600 text-white shadow hover:bg-red-700 transition-colors"
           >
             + Simular Visita Pikachu (#25)
           </button>
           <button
             onClick={() => simulateVisit('charizard', 6)}
-            className="px-3 py-1 text-xs font-semibold rounded-full bg-green-600 text-white shadow hover:bg-green-700 transition-colors"
+            className="px-3 py-1 text-xs font-semibold rounded-full bg-red-600 text-white shadow hover:bg-red-700 transition-colors"
           >
             + Simular Visita Charizard (#6)
           </button>

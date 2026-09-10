@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePokemonDetail } from './hooks/usePokemonDetail';
+import './index.css';
 
 export interface PokemonDetailProps {
   pokemonNameOrId?: string | number | null;
@@ -12,11 +13,11 @@ const TYPE_COLORS: Record<string, string> = {
   grass: 'bg-emerald-600 text-white',
   electric: 'bg-amber-400 text-gray-900',
   poison: 'bg-purple-600 text-white',
-  flying: 'bg-indigo-400 text-white',
+  flying: 'bg-indigo-600 text-white',
   bug: 'bg-lime-600 text-white',
-  normal: 'bg-gray-400 text-white',
+  normal: 'bg-slate-500 text-white',
   ground: 'bg-amber-700 text-white',
-  fairy: 'bg-pink-400 text-white',
+  fairy: 'bg-pink-500 text-white',
   fighting: 'bg-red-700 text-white',
   psychic: 'bg-pink-600 text-white',
   rock: 'bg-yellow-800 text-white',
@@ -41,11 +42,22 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
   onClose,
 }) => {
   const { pokemon, isLoading, error, refetch } = usePokemonDetail(pokemonNameOrId);
+  const [imgError, setImgError] = useState(false);
+
+  useEffect(() => {
+    setImgError(false);
+  }, [pokemonNameOrId]);
 
   if (!pokemonNameOrId) {
     return (
-      <div className="p-8 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-dashed border-gray-200 dark:border-gray-700 text-center">
-        <p className="text-gray-400 dark:text-gray-500 text-sm">
+      <div className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700/80 transition-all duration-200 min-h-[360px] sm:min-h-[400px] flex flex-col items-center justify-center text-center">
+        <div className="w-14 h-14 rounded-full bg-red-50 dark:bg-red-950/40 border border-red-100 dark:border-red-900/50 flex items-center justify-center mb-3 shadow-sm">
+          <span className="text-2xl select-none" aria-hidden="true">⚡</span>
+        </div>
+        <h3 className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">
+          Sin Pokémon seleccionado
+        </h3>
+        <p className="text-gray-400 dark:text-gray-500 text-xs sm:text-sm max-w-xs leading-relaxed">
           Selecciona un Pokémon de la lista o buscador para ver su detalle aquí.
         </p>
       </div>
@@ -58,7 +70,7 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
         role="status"
         aria-busy="true"
         aria-label="Cargando detalles del Pokémon"
-        className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 animate-pulse space-y-4"
+        className="p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700/80 animate-pulse space-y-4 min-h-[360px] sm:min-h-[400px]"
       >
         <div className="flex justify-between items-center">
           <div className="h-6 w-32 bg-gray-200 dark:bg-gray-700 rounded" />
@@ -124,7 +136,7 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Cerrar detalle"
-            className="p-1.5 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+            className="p-1.5 rounded-full text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
           >
             ✕
           </button>
@@ -133,15 +145,16 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
 
       {/* Pokemon Image (SVG / transparent artwork) */}
       <div className="relative w-48 h-48 mx-auto my-2 flex items-center justify-center">
-        <div className="absolute inset-0 bg-radial from-red-500/10 via-transparent to-transparent dark:from-red-500/20 rounded-full blur-xl pointer-events-none" />
-        {artwork ? (
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-red-500/10 via-transparent to-transparent dark:from-red-500/20 rounded-full blur-xl pointer-events-none" />
+        {artwork && !imgError ? (
           <img
             src={artwork}
             alt={pokemon.name}
+            onError={() => setImgError(true)}
             className="w-44 h-44 object-contain filter drop-shadow-lg transform hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="text-xs text-gray-400">Sin imagen disponible</div>
+          <div className="text-xs text-gray-400 font-medium">Sin imagen disponible</div>
         )}
       </div>
 
@@ -162,16 +175,16 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
       </div>
 
       {/* Height & Weight */}
-      <div className="grid grid-cols-2 gap-3 p-3 bg-gray-50 dark:bg-gray-900/60 rounded-xl mb-4 text-center">
+      <div className="grid grid-cols-2 gap-3 p-3 bg-gray-100/90 dark:bg-gray-700/60 border border-gray-200/80 dark:border-gray-700 rounded-xl mb-4 text-center">
         <div>
-          <span className="text-xs text-gray-400 dark:text-gray-500 block">Altura</span>
-          <span className="text-sm font-bold text-gray-800 dark:text-gray-200">
+          <span className="text-xs text-gray-500 dark:text-gray-400 block font-medium">Altura</span>
+          <span className="text-sm font-bold text-gray-900 dark:text-white">
             {(pokemon.height / 10).toFixed(1)} m
           </span>
         </div>
         <div>
-          <span className="text-xs text-gray-400 dark:text-gray-500 block">Peso</span>
-          <span className="text-sm font-bold text-gray-800 dark:text-gray-200">
+          <span className="text-xs text-gray-500 dark:text-gray-400 block font-medium">Peso</span>
+          <span className="text-sm font-bold text-gray-900 dark:text-white">
             {(pokemon.weight / 10).toFixed(1)} kg
           </span>
         </div>
@@ -179,7 +192,7 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
 
       {/* Stats Progress Bars */}
       <div className="space-y-2.5">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 dark:text-gray-500">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
           Estadísticas Base
         </h3>
         <div className="space-y-1.5">
@@ -191,13 +204,13 @@ export const PokemonDetail: React.FC<PokemonDetailProps> = ({
 
             return (
               <div key={statName} className="flex items-center text-xs">
-                <span className="w-20 font-medium text-gray-600 dark:text-gray-400 truncate">
+                <span className="w-20 font-medium text-gray-700 dark:text-gray-300 truncate">
                   {label}
                 </span>
                 <span className="w-8 font-mono font-bold text-gray-900 dark:text-white text-right mr-2">
                   {value}
                 </span>
-                <div className="flex-1 bg-gray-200 dark:bg-gray-700 h-2 rounded-full overflow-hidden">
+                <div className="flex-1 bg-gray-200 dark:bg-gray-700 h-2 rounded-full overflow-hidden min-w-[60px]">
                   <div
                     className="bg-red-500 h-full rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${percentage}%` }}

@@ -11,6 +11,7 @@ build/
 
 # Vite cache & Module Federation
 .vite/
+.mf/
 @mf-types/
 @mf-types.d.ts
 
@@ -24,6 +25,7 @@ lerna-debug.log*
 # OS Files
 .DS_Store
 Thumbs.db
+Screenshot*.png
 
 # IDEs & Editors
 .vscode/
