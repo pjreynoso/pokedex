@@ -27,7 +27,7 @@ La arquitectura está compuesta por 3 aplicaciones desacopladas y 1 paquete comp
 1. Clonar el repositorio y acceder a la carpeta del proyecto:
    ```bash
    git clone <url-del-repositorio>
-   cd casino
+   cd pokedex
    ```
 
 2. Instalar todas las dependencias del monorepo mediante `npm workspaces`:
