@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import federation from '@originjs/vite-plugin-federation';
+import { federation } from '@module-federation/vite';
 
 export default defineConfig({
   plugins: [
@@ -8,10 +8,25 @@ export default defineConfig({
     federation({
       name: 'shell',
       remotes: {
-        mf_detail: 'http://localhost:3001/assets/remoteEntry.js',
-        mf_history: 'http://localhost:3002/assets/remoteEntry.js',
+        mf_detail: {
+          type: 'module',
+          name: 'mf_detail',
+          entry: 'http://localhost:3001/remoteEntry.js',
+          entryGlobalName: 'mf_detail',
+          shareScope: 'default',
+        },
+        mf_history: {
+          type: 'module',
+          name: 'mf_history',
+          entry: 'http://localhost:3002/remoteEntry.js',
+          entryGlobalName: 'mf_history',
+          shareScope: 'default',
+        },
       },
-      shared: ['react', 'react-dom'],
+      shared: {
+        react: { singleton: true },
+        'react-dom': { singleton: true },
+      },
     }),
   ],
   server: {

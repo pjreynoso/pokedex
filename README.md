@@ -108,10 +108,10 @@ La pantalla de Login cuenta con credenciales de prueba preconfiguradas:
 - **Justificación:** Se empleó la capacidad nativa de `npm workspaces` sin añadir herramientas de build monorepo de terceros (como Turborepo o Nx), manteniendo el proyecto liviano, portable y sin sobrecarga de configuración.
 - **Contratos Centralizados:** El paquete `@pokemon/shared` define y exporta las interfaces de PokeAPI (`Pokemon`, `PokemonTypeResponse`), tipos de sesión (`User`, `AuthState`), modelos de historial (`VisitedPokemon`), y las constantes críticas del Event Bus (`POKEMON_VISIT_EVENT`) y almacenamiento (`STORAGE_KEYS`), garantizando consistencia de tipos estricta y cero duplicidad.
 
-### 2. Module Federation con Vite (`@originjs/vite-plugin-federation`)
-- **Justificación:** Ofrece velocidad de inicio y Hot Module Replacement (HMR) instantáneo en desarrollo mediante esbuild, y bundles optimizados para producción con Rollup.
+### 2. Module Federation con Vite (`@module-federation/vite`)
+- **Justificación:** Se utiliza la solución oficial de Module Federation 2.0 (`@module-federation/vite`), ofreciendo compatibilidad completa en desarrollo (Vite dev server nativo) y producción, generación automática de manifiestos (`mf-manifest.json`), tipado federado (`@mf-types`) y compartición singleton de dependencias críticas como `react` y `react-dom`.
 - **Tolerancia a Fallos (Fault Tolerance):** El Shell envuelve los componentes remotos en un componente de protección `RemoteWrapper` que combina `React.Suspense` con un `RemoteErrorBoundary`. Si alguno de los microfrontends remotos no responde o falla la red, el Shell permanece completamente operativo y despliega un fallback visual amigable con botón de reintento.
-- **Servibilidad MIME Estricta:** Los servidores remotos cuentan con un middleware específico para servir `remoteEntry.js` con cabecera `Content-Type: application/javascript` y CORS abierto (`Access-Control-Allow-Origin: *`), previniendo errores de importación de módulos en el navegador.
+- **CORS y Configuración Nativa:** Los remotos configuran CORS abierto (`Access-Control-Allow-Origin: *`) y sirven las entradas federadas (`remoteEntry.js` / `mf-manifest.json`) tanto en el servidor de desarrollo como en preview/producción.
 
 ### 3. Gestión de Estado Atómica con Zustand
 - **Justificación:** Zustand proporciona stores atómicos, reactivos y con mínimo overhead conceptual:

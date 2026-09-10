@@ -1,8 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import federation from '@originjs/vite-plugin-federation';
-import path from 'path';
-import fs from 'fs';
+import { federation } from '@module-federation/vite';
 
 export default defineConfig({
   plugins: [
@@ -10,33 +8,15 @@ export default defineConfig({
     federation({
       name: 'mf_detail',
       filename: 'remoteEntry.js',
+      manifest: true,
       exposes: {
         './PokemonDetail': './src/PokemonDetail.tsx',
       },
-      shared: ['react', 'react-dom'],
-    }),
-    {
-      name: 'serve-federation-remote-dev',
-      configureServer(server) {
-        server.middlewares.use((req, res, next) => {
-          if (req.url && req.url.startsWith('/assets/')) {
-            const cleanUrl = req.url.split('?')[0];
-            const filePath = path.resolve(__dirname, 'dist', cleanUrl.replace(/^\//, ''));
-            if (fs.existsSync(filePath)) {
-              const ext = path.extname(filePath);
-              if (ext === '.js' || ext === '.mjs') {
-                res.setHeader('Content-Type', 'application/javascript');
-              } else if (ext === '.css') {
-                res.setHeader('Content-Type', 'text/css');
-              }
-              res.setHeader('Access-Control-Allow-Origin', '*');
-              return fs.createReadStream(filePath).pipe(res);
-            }
-          }
-          next();
-        });
+      shared: {
+        react: { singleton: true },
+        'react-dom': { singleton: true },
       },
-    },
+    }),
   ],
   server: {
     port: 3001,
@@ -50,6 +30,10 @@ export default defineConfig({
   preview: {
     port: 3001,
     strictPort: true,
+    cors: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    },
   },
   build: {
     target: 'esnext',

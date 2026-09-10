@@ -9,8 +9,10 @@ dist-ssr/
 build/
 *.local
 
-# Vite cache
+# Vite cache & Module Federation
 .vite/
+@mf-types/
+@mf-types.d.ts
 
 # Logs
 npm-debug.log*
