@@ -110,6 +110,9 @@ describe('Shell: Toast al Recargar y Regla de Descarte (Fase 7)', () => {
     );
     expect(updatedVisit.name).toBe('mewtwo');
     expect(updatedVisit.timestamp).toBeGreaterThan(past);
+
+    expect(screen.getByRole('alert')).toBeInTheDocument();
+    expect(screen.getByText('mewtwo')).toBeInTheDocument();
   });
 
   it('el botón "Ver detalle" actualiza el store de UI y cierra el toast', () => {

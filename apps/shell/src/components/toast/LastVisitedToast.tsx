@@ -35,7 +35,7 @@ export const LastVisitedToast: React.FC = () => {
       if (rawDismissed) {
         const dismissed = JSON.parse(rawDismissed);
         // If the dismissed timestamp is >= the visited timestamp, don't show
-        if (dismissed.timestamp && dismissed.timestamp >= visited.timestamp) {
+        if (typeof dismissed.timestamp === 'number' && dismissed.timestamp >= visited.timestamp) {
           setIsVisible(false);
           return;
         }
@@ -67,11 +67,23 @@ export const LastVisitedToast: React.FC = () => {
         } catch {
           // ignore
         }
+        setLastVisited(record);
+        setIsVisible(true);
+      }
+    };
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === LAST_VISITED_KEY || e.key === TOAST_DISMISSED_KEY) {
+        checkAndDisplayToast();
       }
     };
 
     window.addEventListener(POKEMON_VISIT_EVENT, handleNewVisit);
-    return () => window.removeEventListener(POKEMON_VISIT_EVENT, handleNewVisit);
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener(POKEMON_VISIT_EVENT, handleNewVisit);
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const handleDismiss = () => {
